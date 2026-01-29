@@ -1,16 +1,28 @@
 'use client'
-import { useState } from "react"
+
+import { useEffect, useState } from "react"
 import styles from "../../styles/Evento.module.css"
 import EventoComp from "@/components/EventoComp"
 
 export default function EventosPage(){
 
     const[offSet, setOffSet] = useState(0)
+    const[events, setEvents] = useState([])
     const EVENT_WIDTH = window.innerWidth - 100
     const GAP = 20
 
+    useEffect(() => {
+        async function fetchEvents(){
+            const res = await fetch('/api/eventos')
+            const endoida = await res.json()
+            setEvents(endoida)
+        }
     
-    
+        fetchEvents()
+
+    },[])
+
+
     return(
         <div className={styles.page}>
             <div className={styles.eventoslist}>
@@ -26,7 +38,13 @@ export default function EventosPage(){
                 }}>
                     {
                         
-                        <EventoComp isSelected={true} />
+                            events.map((event : any) => {
+                                return <EventoComp
+                                key={Math.random()}
+                                evento={event}
+                                isSelected={true} />
+                            })
+                        
 
                     }
                 </div>

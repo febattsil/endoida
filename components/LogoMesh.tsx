@@ -9,7 +9,7 @@ import fontJson from '@/public/fonts/gulfs_display_extra_expanded_italic.typefac
 import ExplosionMesh from './ExplosionMesh'
 import { useRouter, usePathname } from 'next/navigation'
 
-export default function LogoMesh({ enable } : { enable: boolean } ) {
+export default function LogoMesh({ forEventComp, enable } : { enable: boolean, forEventComp: boolean } ) {
 
   const ref = useRef<THREE.Group>(null!)
   const flyTime = useRef(0)
@@ -38,6 +38,7 @@ export default function LogoMesh({ enable } : { enable: boolean } ) {
   const visibleScale = mobile ? 0.12 : 0.15
 
   useEffect(() => {
+      if(forEventComp) return
       const onResize = () => setMobile(window.innerWidth <= 800)
       onResize()
       window.addEventListener('resize', onResize)
@@ -46,7 +47,7 @@ export default function LogoMesh({ enable } : { enable: boolean } ) {
 
 
   useFrame((state, delta) => {
-
+  if(forEventComp) return
   if (!ref.current || pathname !== '/') return
 
   const t = state.clock.elapsedTime
@@ -107,6 +108,7 @@ export default function LogoMesh({ enable } : { enable: boolean } ) {
 })
 
 useFrame((_, delta) => {
+  if(forEventComp) return
   if (!ref.current) return
   if (!pathname.startsWith('/eventos')) return
   if (flyState.current === 'done') return
