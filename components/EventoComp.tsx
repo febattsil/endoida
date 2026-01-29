@@ -1,13 +1,13 @@
 import styles from '../styles/Evento.module.css'
 import { useState } from 'react';
 import PlayersComp from './PlayersComp';
-import MainPlayersComp from './MainPlayerComp';
+import MainPlayersComp from './MainPlayersComp';
 import EventoInfo from './EventoInfoComp';
 import AppsComp from './AppsComp';
 import SponsorsComp from './SponsorsComp';
 import EventoLogoComp from './EventoLogoComp';
 
-export default function EventoComp({user, evento, characters} : {user:any[], evento: any, characters: any}){
+export default function EventoComp({evento} : {evento: any}){
 
     const [slid, setSlid] = useState(false);
 
@@ -34,15 +34,18 @@ export default function EventoComp({user, evento, characters} : {user:any[], eve
                 <div className={`${styles.evento} ${slid ? styles.issliding : ''}`}>
 
                     <EventoInfo
-                    eventoinfo={evento.info} />
+                    name={evento.name}
+                    description={evento.description}
+                    locationlap={evento.locationlap}
+                    />
 
                     <MainPlayersComp 
-                    mainplayers={evento.mainplayers}/>
+                    mainplayers={evento.players}
+                    />
 
                     <PlayersComp
-                    userLikes={user[evento].userLikes}
                     players={evento.players}
-                    characters={characters}/>
+                    />
 
                     <AppsComp
                     apps={evento.apps} />

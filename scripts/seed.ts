@@ -3,12 +3,13 @@ import Event from '@/models/Event'
 import Player from '@/models/Player'
 import dotenv from 'dotenv'
 
-dotenv.config({
-  path: '.env.local',
-})
-
+dotenv.config({ path: '.env.local' })
 
 const MONGODB_URI = process.env.MONGODB_URI!
+
+const calcRating = (votersCount: number) => {
+  return Math.min(5, votersCount)
+}
 
 async function seed() {
   try {
@@ -25,68 +26,23 @@ async function seed() {
         name: 'Noite Neon',
         description: 'Festa eletrônica futurista',
         locationlap: 'São Paulo',
-        medias: {
-          icon: '/icons/neon.png',
-          album: '/albums/neon'
-        },
-        dj: 'DJ Pulse',
-        performer: 'Laser Crew',
-        dragPerformer: 'Electra',
-        sponsors: {
-          poster: '/sponsors/redbull.png'
-        },
-        drinks: 'Vodka, Gin',
-        foods: 'Pizza, Burgers'
       },
       {
         name: 'Cosmic Party',
         description: 'Viagem sonora intergaláctica',
         locationlap: 'Rio de Janeiro',
-        medias: {
-          icon: '/icons/cosmic.png',
-          album: '/albums/cosmic'
-        },
-        dj: 'DJ Galaxy',
-        performer: 'Star Dancers',
-        dragPerformer: 'Nova Queen',
-        sponsors: {
-          poster: '/sponsors/heineken.png'
-        },
-        drinks: 'Whisky, Drinks cósmicos',
-        foods: 'Finger foods'
       }
     ])
 
-    console.log('🧑‍🚀 Criando players...')
-    const players = await Player.insertMany([
+    console.log('🧑‍🚀 Criando players base...')
+    const basePlayers = await Player.insertMany([
       {
         username: 'neonfox',
         name: 'Lucas Neon',
         email: 'lucas@neon.com',
         password: '123456',
         age: 25,
-        character: 'Energetic',
-        bio: 'Amo festas e música eletrônica',
-        medias: {
-          profile: '/profiles/neonfox.png',
-          fotos: []
-        },
         emoji: '🦊',
-        zodiacsign: 'Aquário',
-        interesting: 7,
-        partylevel: 9,
-        missingparties: 1,
-        former: false,
-        generation: 'Z',
-        favmusicgenre: 'EDM',
-        favdrink: 'Gin',
-        socialratings: 8,
-        events: [
-          {
-            event: events[0]._id,
-            status: 'comming'
-          }
-        ]
       },
       {
         username: 'cosmicgirl',
@@ -94,22 +50,75 @@ async function seed() {
         email: 'ana@cosmic.com',
         password: '123456',
         age: 28,
-        character: 'Chill',
-        bio: 'Viagens, música e boas vibes',
-        medias: {
-          profile: '/profiles/cosmicgirl.png',
-          fotos: []
-        },
         emoji: '🌌',
-        zodiacsign: 'Peixes',
-        interesting: 8,
-        partylevel: 6,
-        missingparties: 0,
-        former: false,
-        generation: 'Millennial',
-        favmusicgenre: 'House',
-        favdrink: 'Caipirinha',
-        socialratings: 9,
+      },
+      {
+        username: 'voter1',
+        name: 'Voter One',
+        email: 'v1@test.com',
+        password: '123456',
+      },
+      {
+        username: 'voter2',
+        name: 'Voter Two',
+        email: 'v2@test.com',
+        password: '123456',
+      },
+      {
+        username: 'voter3',
+        name: 'Voter Three',
+        email: 'v3@test.com',
+        password: '123456',
+      },
+    ])
+
+    const [
+      neonfox,
+      cosmicgirl,
+      voter1,
+      voter2,
+      voter3
+    ] = basePlayers
+
+    console.log('⭐ Atualizando ratings...')
+    await Player.updateOne(
+      { _id: neonfox._id },
+      {
+        $set: {
+          ratings: [
+            {
+              character: 'Boto',
+              voters: [voter1._id, voter2._id, voter3._id],
+              rating: calcRating(3)
+            },
+            {
+              character: 'Boitatá',
+              voters: [voter1._id, voter2._id],
+              rating: calcRating(2)
+            }
+          ]
+        },
+        events: [
+          {
+            event: events[0]._id,
+            status: 'comming'
+          }
+        ]
+      }
+    )
+
+    await Player.updateOne(
+      { _id: cosmicgirl._id },
+      {
+        $set: {
+          ratings: [
+            {
+              character: 'Caipora',
+              voters: [voter2._id, voter3._id],
+              rating: calcRating(2)
+            }
+          ]
+        },
         events: [
           {
             event: events[1]._id,
@@ -117,14 +126,9 @@ async function seed() {
           }
         ]
       }
-    ])
+    )
 
     console.log('✅ Seed finalizado com sucesso!')
-    console.log({
-      events: events.length,
-      players: players.length
-    })
-
     process.exit(0)
   } catch (err) {
     console.error('❌ Erro no seed:', err)

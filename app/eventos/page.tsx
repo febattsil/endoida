@@ -8,7 +8,12 @@ export default function EventosPage(){
 
     const[offSet, setOffSet] = useState(0)
     const[events, setEvents] = useState([])
-    const EVENT_WIDTH = window.innerWidth - 100
+    const [eventWidth, setEventWidth] = useState(0)
+
+    useEffect(() => {
+        setEventWidth(window.innerWidth - 100)
+    }, [])
+
     const GAP = 20
 
     useEffect(() => {
@@ -26,10 +31,10 @@ export default function EventosPage(){
     return(
         <div className={styles.page}>
             <div className={styles.eventoslist}>
-                <button className={styles.eventooption} onClick={() => setOffSet(0 * (EVENT_WIDTH + GAP))}/>
-                <button className={styles.eventooption} onClick={() => setOffSet(1 * (EVENT_WIDTH + GAP))}/>
-                <button className={styles.eventooption} onClick={() => setOffSet(2 * (EVENT_WIDTH + GAP))}/>
-                <button className={styles.eventooption} onClick={() => setOffSet(3 * (EVENT_WIDTH + GAP))}/>
+                <button className={styles.eventooption} onClick={() => setOffSet(0 * (eventWidth + GAP))}/>
+                <button className={styles.eventooption} onClick={() => setOffSet(1 * (eventWidth + GAP))}/>
+                <button className={styles.eventooption} onClick={() => setOffSet(2 * (eventWidth + GAP))}/>
+                <button className={styles.eventooption} onClick={() => setOffSet(3 * (eventWidth + GAP))}/>
             </div>
             <div className={styles.eventowrapper}>
                 <div className={styles.eventostrack}
@@ -40,9 +45,8 @@ export default function EventosPage(){
                         
                             events.map((event : any) => {
                                 return <EventoComp
-                                key={Math.random()}
-                                evento={event}
-                                isSelected={true} />
+                                key={event._id}
+                                evento={event} />
                             })
                         
 

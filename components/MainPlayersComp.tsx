@@ -1,12 +1,17 @@
 import styles from '../styles/Evento.module.css'
 import MainPlayer from './MainPlayerComp'
 
-export default function MainPlayersComp({ mainplayers } : any) {
+export default function MainPlayersComp({ mainplayers = [] } : any) {
+
+    if(!mainplayers.length) return null
+
     return (
         <div className={styles.mainplayers}>
             {
-                mainplayers.map((mainplayer : any) => {
-                    return <MainPlayer mainplayer={mainplayer} />
+                mainplayers.map((mainplayer : any, index: number) => {
+                    return <MainPlayer
+                    key={index}
+                    mainplayer={mainplayer} />
                 })
 
             }

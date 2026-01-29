@@ -1,15 +1,15 @@
 import styles from '../styles/Evento.module.css'
 
-export default function EventoInfo({ eventoinfo } : any) {
+export default function EventoInfo({ name, description, locationlap } : any) {
     return(
         <div className={styles.eventoinfo}>
-            <div className={styles.eventoTitle}>{eventoinfo.name}</div>
+            <div className={styles.eventoTitle}>{name}</div>
             <div className={styles.details}>
                 <div className={styles.description}>
-                        {eventoinfo.description}
+                        {description}
                 </div>
                 <div className={styles.location}>
-                    {eventoinfo.locationlap}
+                    {locationlap}
                 </div>
             </div>
         </div>
