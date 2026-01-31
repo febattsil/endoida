@@ -14,6 +14,7 @@ export default function LogoMesh({ forEventComp, enable } : { enable: boolean, f
   const ref = useRef<THREE.Group>(null!)
   const flyTime = useRef(0)
   const progressRef = useRef(0)
+  const spinning = useRef(false)
   const[mobile, setMobile] = useState(false)
   const scroll = useScrollProgress()
   const router = useRouter()
@@ -21,8 +22,10 @@ export default function LogoMesh({ forEventComp, enable } : { enable: boolean, f
 
   type FlyState = 'idle' | 'playing' | 'done'
   const flyState = useRef<FlyState>('idle')
-
+  
   const FLY_DURATION = mobile ? 2 : 1 
+  const SPIN_DURATION = 1.2
+  const SPIN_TURNS = 3
   const START_X = -7
   const END_X = 7
   const FIXED_Y = 2
@@ -37,18 +40,45 @@ export default function LogoMesh({ forEventComp, enable } : { enable: boolean, f
   const hiddenScale = 1
   const visibleScale = mobile ? 0.12 : 0.15
 
-  useEffect(() => {
-      if(forEventComp) 
-        ref.current.scale.set(0.5, 0.5, 0.5)
-      return
-      const onResize = () => setMobile(window.innerWidth <= 800)
-      onResize()
-      window.addEventListener('resize', onResize)
-      return () => window.removeEventListener('resize', onResize)
-    }, [])
+useEffect(() => {
+  if (!forEventComp) return
+  if (!enable) return
 
+  spinning.current = true
+  progressRef.current = 0
+}, [enable, forEventComp])
 
-  useFrame((state, delta) => {
+useEffect(() => {
+    if(forEventComp) 
+      ref.current.scale.set(0.5, 0.5, 0.5)
+    return
+    const onResize = () => setMobile(window.innerWidth <= 800)
+    onResize()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+}, [])
+
+useFrame((_, delta) => {
+  if (!forEventComp) return
+  if (!spinning.current) return
+
+  progressRef.current += delta / SPIN_DURATION
+  const p = THREE.MathUtils.clamp(progressRef.current, 0, 1)
+
+  // easing suave
+  const eased = THREE.MathUtils.smoothstep(p, 0, 1)
+
+  ref.current.rotation.y = eased * SPIN_TURNS * Math.PI * 2
+
+  if (p >= 1) {
+    spinning.current = false
+
+    // garante alinhamento perfeito
+    ref.current.rotation.y = SPIN_TURNS * Math.PI * 2
+  }
+})
+
+useFrame((state, delta) => {
   if(forEventComp) return
   if (!ref.current || pathname !== '/') return
 

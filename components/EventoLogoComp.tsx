@@ -3,13 +3,13 @@
 import { Canvas } from "@react-three/fiber"
 import LogoMesh from "./LogoMesh"
 
-export default function EventoLogoComp() {
+export default function EventoLogoComp({ spin } : { spin : boolean }) {
 
   return (
     <Canvas
       camera={{ position: [0, 0, 10], fov: 45 }}
       style={{
-        position: 'absolute',
+        position: 'relative',
         inset: 0,
         pointerEvents: 'none',
         width: '100%',
@@ -17,14 +17,14 @@ export default function EventoLogoComp() {
         zIndex: 1,
 
       }}
-      frameloop="demand"
+      frameloop="always"
     >
 
       <ambientLight intensity={1} />
 
       <LogoMesh
       forEventComp={true}
-      enable={true}/>
+      enable={spin}/>
 
     </Canvas>
   )

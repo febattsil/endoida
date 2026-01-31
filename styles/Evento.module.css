@@ -383,7 +383,7 @@ body {
     position: fixed;
     top: 7%;
     left: 50%;
-    transform: translatex(-80%);
+    transform: translatex(-110%);
     width: min(500px, 70vw);
     max-height: 80vh;
     color: rgb(255, 208, 0);
@@ -401,7 +401,18 @@ body {
     pointer-events: auto;
 }
 
+.performersinfo {
+    margin-top: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateX(50%);
+    
+}
+
 .logo{
+    display: flex;
+    flex-direction: column;
     position: relative;
     top: 0px;
     right: 1%;
@@ -419,6 +430,7 @@ body {
     height: 120px;
     width: 120px;
     margin-bottom: 30px;
+    transform: translateX(45%);
     
 }
 

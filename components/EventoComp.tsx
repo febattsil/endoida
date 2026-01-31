@@ -16,14 +16,17 @@ export default function EventoComp({evento} : {evento: any}){
         <div style={{height: "100%", position: "relative"}}>
 
             <div className={`${styles.performers} ${ slid ? styles.active : ""}`}>
+                <div className={styles.performersinfo}>
+                    <div className={styles.dj}>
+                        DJ Sample
+                    </div>
+                    <div className={styles.drags}>
+                        Drag
+                    </div>
+                </div>
                 <div className={styles.logo}>
-                    <EventoLogoComp/>
-                </div>
-                <div className={styles.dj}>
-                    DJ Sample
-                </div>
-                <div className={styles.drags}>
-                    Drag
+                    <EventoLogoComp spin={slid} />
+                    <p style={{fontSize: "10px", justifyContent: "center"}}>All Rights Reserved. All the trademarks respect the issues over the movements of Endoida Floripa parties.</p>
                 </div>
             </div>
 
