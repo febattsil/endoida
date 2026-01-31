@@ -38,7 +38,9 @@ export default function LogoMesh({ forEventComp, enable } : { enable: boolean, f
   const visibleScale = mobile ? 0.12 : 0.15
 
   useEffect(() => {
-      if(forEventComp) return
+      if(forEventComp) 
+        ref.current.scale.set(0.5, 0.5, 0.5)
+      return
       const onResize = () => setMobile(window.innerWidth <= 800)
       onResize()
       window.addEventListener('resize', onResize)

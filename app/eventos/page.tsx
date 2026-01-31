@@ -30,12 +30,16 @@ export default function EventosPage(){
 
     return(
         <div className={styles.page}>
+
             <div className={styles.eventoslist}>
+
                 <button className={styles.eventooption} onClick={() => setOffSet(0 * (eventWidth + GAP))}/>
                 <button className={styles.eventooption} onClick={() => setOffSet(1 * (eventWidth + GAP))}/>
                 <button className={styles.eventooption} onClick={() => setOffSet(2 * (eventWidth + GAP))}/>
                 <button className={styles.eventooption} onClick={() => setOffSet(3 * (eventWidth + GAP))}/>
+                    
             </div>
+
             <div className={styles.eventowrapper}>
                 <div className={styles.eventostrack}
                 style={{

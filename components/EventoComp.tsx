@@ -16,14 +16,14 @@ export default function EventoComp({evento} : {evento: any}){
         <div style={{height: "100%", position: "relative"}}>
 
             <div className={`${styles.performers} ${ slid ? styles.active : ""}`}>
-
-                <EventoLogoComp />
-
-                <div>
-                    {evento.dj}
+                <div className={styles.logo}>
+                    <EventoLogoComp/>
                 </div>
-                <div>
-                    {evento.drag}
+                <div className={styles.dj}>
+                    DJ Sample
+                </div>
+                <div className={styles.drags}>
+                    Drag
                 </div>
             </div>
 
